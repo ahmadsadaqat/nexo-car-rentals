@@ -1,0 +1,272 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 0,
+ "autoname": "field:license_plate",
+ "creation": "2026-05-30 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "vehicle_name",
+  "license_plate",
+  "column_break_main",
+  "status",
+  "registration_stage",
+  "vehicle_identity_section",
+  "vehicle_category",
+  "company_make",
+  "model",
+  "column_break_identity",
+  "model_year",
+  "color",
+  "image",
+  "odometer_section",
+  "current_odometer",
+  "column_break_odometer",
+  "last_odometer_update",
+  "specifications_tab",
+  "physical_section",
+  "chassis_number",
+  "seats",
+  "doors",
+  "column_break_specs",
+  "fuel_type",
+  "horsepower",
+  "transmission",
+  "engine_capacity",
+  "contract_tab",
+  "current_contract",
+  "contract_expiry",
+  "notes_tab",
+  "notes"
+ ],
+ "fields": [
+  {
+   "bold": 1,
+   "fieldname": "vehicle_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Vehicle Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "license_plate",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "License Plate",
+   "reqd": 1,
+   "search_index": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Available",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Available\nReserved\nOn Trip\nUnder Maintenance\nContract Expired\nRetired",
+   "search_index": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "registration_stage",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Registration Stage",
+   "options": "Draft\nRegistered\nActive\nSuspended\nRetired"
+  },
+  {
+   "fieldname": "vehicle_identity_section",
+   "fieldtype": "Section Break",
+   "label": "Vehicle Identity"
+  },
+  {
+   "fieldname": "vehicle_category",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Category",
+   "options": "Vehicle Category",
+   "search_index": 1
+  },
+  {
+   "fieldname": "company_make",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Make",
+   "reqd": 1
+  },
+  {
+   "fieldname": "model",
+   "fieldtype": "Data",
+   "label": "Model",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_identity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "model_year",
+   "fieldtype": "Int",
+   "label": "Model Year"
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Data",
+   "label": "Color"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Vehicle Image"
+  },
+  {
+   "fieldname": "odometer_section",
+   "fieldtype": "Section Break",
+   "label": "Odometer"
+  },
+  {
+   "default": "0",
+   "fieldname": "current_odometer",
+   "fieldtype": "Float",
+   "label": "Current Odometer (km)"
+  },
+  {
+   "fieldname": "column_break_odometer",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_odometer_update",
+   "fieldtype": "Datetime",
+   "label": "Last Updated",
+   "read_only": 1
+  },
+  {
+   "fieldname": "specifications_tab",
+   "fieldtype": "Tab Break",
+   "label": "Specifications"
+  },
+  {
+   "fieldname": "physical_section",
+   "fieldtype": "Section Break",
+   "label": "Physical Details"
+  },
+  {
+   "fieldname": "chassis_number",
+   "fieldtype": "Data",
+   "label": "Chassis Number",
+   "unique": 1
+  },
+  {
+   "fieldname": "seats",
+   "fieldtype": "Int",
+   "label": "Seats"
+  },
+  {
+   "fieldname": "doors",
+   "fieldtype": "Int",
+   "label": "Doors"
+  },
+  {
+   "fieldname": "column_break_specs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Petrol",
+   "fieldname": "fuel_type",
+   "fieldtype": "Select",
+   "label": "Fuel Type",
+   "options": "Petrol\nDiesel\nElectric\nHybrid\nCNG\nLPG"
+  },
+  {
+   "fieldname": "horsepower",
+   "fieldtype": "Int",
+   "label": "Horsepower (HP)"
+  },
+  {
+   "default": "Automatic",
+   "fieldname": "transmission",
+   "fieldtype": "Select",
+   "label": "Transmission",
+   "options": "Automatic\nManual"
+  },
+  {
+   "fieldname": "engine_capacity",
+   "fieldtype": "Data",
+   "label": "Engine Capacity"
+  },
+  {
+   "fieldname": "contract_tab",
+   "fieldtype": "Tab Break",
+   "label": "Contract"
+  },
+  {
+   "fieldname": "current_contract",
+   "fieldtype": "Link",
+   "label": "Current Contract",
+   "options": "Vehicle Contract",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "current_contract.contract_end_date",
+   "fieldname": "contract_expiry",
+   "fieldtype": "Date",
+   "label": "Contract Expiry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notes_tab",
+   "fieldtype": "Tab Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-30 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Car Rental",
+ "name": "Vehicle",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fleet Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Reservation Agent"
+  },
+  {
+   "read": 1,
+   "role": "Driver"
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "vehicle_name",
+ "track_changes": 1
+}

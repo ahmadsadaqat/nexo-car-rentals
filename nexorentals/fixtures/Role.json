@@ -1,0 +1,32 @@
+[
+ {
+  "desk_access": 1,
+  "doctype": "Role",
+  "name": "Fleet Manager",
+  "role_name": "Fleet Manager"
+ },
+ {
+  "desk_access": 1,
+  "doctype": "Role",
+  "name": "Reservation Agent",
+  "role_name": "Reservation Agent"
+ },
+ {
+  "desk_access": 1,
+  "doctype": "Role",
+  "name": "Car Rental Approver",
+  "role_name": "Car Rental Approver"
+ },
+ {
+  "desk_access": 0,
+  "doctype": "Role",
+  "name": "Driver",
+  "role_name": "Driver"
+ },
+ {
+  "desk_access": 1,
+  "doctype": "Role",
+  "name": "Mechanic",
+  "role_name": "Mechanic"
+ }
+]

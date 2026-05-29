@@ -1,0 +1,162 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ res.name }}{% endblock %}
+
+{% block page_content %}
+{% set status_colors = {
+  "Draft": "secondary",
+  "Pending Approval": "warning",
+  "Approved": "success",
+  "On Trip": "primary",
+  "Completed": "dark",
+  "Cancelled": "danger"
+} %}
+
+<div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-2">
+  <div>
+    <h2 class="mb-1">{{ res.name }}</h2>
+    <span class="badge bg-{{ status_colors.get(res.status, 'secondary') }} fs-6">
+      {{ _(res.status) }}
+    </span>
+  </div>
+  <div class="d-flex gap-2">
+    {% if can_cancel %}
+    <button class="btn btn-outline-danger" id="cancelBtn">{{ _("Cancel Reservation") }}</button>
+    {% endif %}
+    <a href="/car-rental/my-reservations" class="btn btn-outline-secondary">← {{ _("My Reservations") }}</a>
+  </div>
+</div>
+
+{% if res.status == "Draft" %}
+<div class="alert alert-info mb-4">
+  {{ _("Your booking has been received and is awaiting review. We will notify you once it is approved.") }}
+</div>
+{% elif res.status == "Approved" %}
+<div class="alert alert-success mb-4">
+  {{ _("Your reservation is approved. Please arrive on time for vehicle pickup.") }}
+</div>
+{% endif %}
+
+<div class="row g-4">
+  <!-- Booking Info -->
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-transparent fw-semibold">{{ _("Booking Information") }}</div>
+      <div class="card-body">
+        <dl class="row mb-0 small">
+          <dt class="col-sm-5 text-muted">{{ _("Vehicle") }}</dt>
+          <dd class="col-sm-7">{{ res.vehicle_name or res.vehicle }}</dd>
+
+          <dt class="col-sm-5 text-muted">{{ _("Start Date") }}</dt>
+          <dd class="col-sm-7">{{ res.trip_start_date }}</dd>
+
+          <dt class="col-sm-5 text-muted">{{ _("End Date") }}</dt>
+          <dd class="col-sm-7">{{ res.trip_end_date }}</dd>
+
+          <dt class="col-sm-5 text-muted">{{ _("Duration") }}</dt>
+          <dd class="col-sm-7">{{ res.total_days or "—" }} {{ _("day(s)") }}</dd>
+
+          {% if res.with_driver %}
+          <dt class="col-sm-5 text-muted">{{ _("Driver") }}</dt>
+          <dd class="col-sm-7"><span class="badge bg-info">{{ _("Included") }}</span></dd>
+          {% endif %}
+
+          {% if res.estimated_km %}
+          <dt class="col-sm-5 text-muted">{{ _("Est. KM") }}</dt>
+          <dd class="col-sm-7">{{ res.estimated_km }} km</dd>
+          {% endif %}
+
+          <dt class="col-sm-5 text-muted">{{ _("Booked On") }}</dt>
+          <dd class="col-sm-7">{{ res.booking_date }}</dd>
+
+          {% if res.notes %}
+          <dt class="col-sm-5 text-muted">{{ _("Notes") }}</dt>
+          <dd class="col-sm-7">{{ res.notes }}</dd>
+          {% endif %}
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cost Breakdown -->
+  <div class="col-md-6">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-transparent fw-semibold">{{ _("Cost Breakdown") }}</div>
+      <div class="card-body">
+        <dl class="row mb-0 small">
+          <dt class="col-sm-7 text-muted">{{ _("Base Amount") }}</dt>
+          <dd class="col-sm-5 text-end">
+            {{ frappe.format_value(res.base_amount or 0, {"fieldtype": "Currency"}) }}
+          </dd>
+
+          <dt class="col-sm-7 text-muted">{{ _("KM Charges") }}</dt>
+          <dd class="col-sm-5 text-end">
+            {{ frappe.format_value(res.km_charges or 0, {"fieldtype": "Currency"}) }}
+          </dd>
+
+          {% if res.with_driver %}
+          <dt class="col-sm-7 text-muted">{{ _("Driver Charges") }}</dt>
+          <dd class="col-sm-5 text-end">
+            {{ frappe.format_value(res.driver_charges or 0, {"fieldtype": "Currency"}) }}
+          </dd>
+          {% endif %}
+
+          <dt class="col-sm-7 text-muted">{{ _("Security Deposit") }}</dt>
+          <dd class="col-sm-5 text-end">
+            {{ frappe.format_value(res.security_deposit or 0, {"fieldtype": "Currency"}) }}
+          </dd>
+
+          <dt class="col-sm-7 fw-bold border-top pt-2 mt-1">{{ _("Total Amount") }}</dt>
+          <dd class="col-sm-5 text-end fw-bold text-primary border-top pt-2 mt-1">
+            {{ frappe.format_value(res.total_amount or 0, {"fieldtype": "Currency"}) }}
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trip Odometer (only if trip started or completed) -->
+  {% if res.status in ["On Trip", "Completed"] %}
+  <div class="col-12">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-transparent fw-semibold">{{ _("Trip Details") }}</div>
+      <div class="card-body">
+        <div class="row g-3 small">
+          <div class="col-md-4 text-center">
+            <div class="text-muted">{{ _("Start Odometer") }}</div>
+            <div class="fw-bold fs-5">{{ res.start_odometer or "—" }} km</div>
+          </div>
+          <div class="col-md-4 text-center">
+            <div class="text-muted">{{ _("End Odometer") }}</div>
+            <div class="fw-bold fs-5">{{ res.end_odometer or "—" }} km</div>
+          </div>
+          <div class="col-md-4 text-center">
+            <div class="text-muted">{{ _("Trip KM") }}</div>
+            <div class="fw-bold fs-5">{{ res.trip_km or "—" }} km</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{% if can_cancel %}
+<script>
+document.getElementById("cancelBtn").addEventListener("click", function () {
+  if (!confirm("{{ _('Are you sure you want to cancel this reservation?') }}")) return;
+  this.disabled = true;
+  frappe.call({
+    method: "nexorentals.car_rental.api.portal.cancel_my_reservation",
+    args: { name: "{{ res.name }}" },
+    callback(r) {
+      if (r.message && r.message.success) {
+        window.location.href = "/car-rental/my-reservations";
+      } else {
+        document.getElementById("cancelBtn").disabled = false;
+      }
+    },
+  });
+});
+</script>
+{% endif %}
+{% endblock %}

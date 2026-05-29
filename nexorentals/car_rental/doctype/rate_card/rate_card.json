@@ -1,0 +1,193 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:rate_card_name",
+ "creation": "2026-05-30 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "rate_card_name",
+  "vehicle_category",
+  "column_break_top",
+  "is_active",
+  "currency",
+  "rates_section",
+  "daily_rate",
+  "per_km_rate",
+  "minimum_km_per_day",
+  "column_break_rates",
+  "security_deposit",
+  "driver_charges_per_day",
+  "extra_charges_section",
+  "extra_km_charge",
+  "late_return_fee_per_hour",
+  "column_break_extras",
+  "fuel_surcharge",
+  "validity_section",
+  "effective_from",
+  "effective_to",
+  "notes_tab",
+  "notes"
+ ],
+ "fields": [
+  {
+   "bold": 1,
+   "fieldname": "rate_card_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Rate Card Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vehicle_category",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Vehicle Category",
+   "options": "Vehicle Category"
+  },
+  {
+   "fieldname": "column_break_top",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "rates_section",
+   "fieldtype": "Section Break",
+   "label": "Rates"
+  },
+  {
+   "fieldname": "daily_rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Daily Rate",
+   "options": "currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "per_km_rate",
+   "fieldtype": "Currency",
+   "label": "Per KM Rate",
+   "options": "currency"
+  },
+  {
+   "fieldname": "minimum_km_per_day",
+   "fieldtype": "Float",
+   "label": "Minimum KM Per Day"
+  },
+  {
+   "fieldname": "column_break_rates",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "security_deposit",
+   "fieldtype": "Currency",
+   "label": "Security Deposit",
+   "options": "currency"
+  },
+  {
+   "fieldname": "driver_charges_per_day",
+   "fieldtype": "Currency",
+   "label": "Driver Charges Per Day",
+   "options": "currency"
+  },
+  {
+   "fieldname": "extra_charges_section",
+   "fieldtype": "Section Break",
+   "label": "Extra Charges"
+  },
+  {
+   "fieldname": "extra_km_charge",
+   "fieldtype": "Currency",
+   "label": "Extra KM Charge (per km over minimum)",
+   "options": "currency"
+  },
+  {
+   "fieldname": "late_return_fee_per_hour",
+   "fieldtype": "Currency",
+   "label": "Late Return Fee (per hour)",
+   "options": "currency"
+  },
+  {
+   "fieldname": "column_break_extras",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fuel_surcharge",
+   "fieldtype": "Currency",
+   "label": "Fuel Surcharge",
+   "options": "currency"
+  },
+  {
+   "fieldname": "validity_section",
+   "fieldtype": "Section Break",
+   "label": "Validity"
+  },
+  {
+   "fieldname": "effective_from",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Effective From"
+  },
+  {
+   "fieldname": "effective_to",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Effective To"
+  },
+  {
+   "fieldname": "notes_tab",
+   "fieldtype": "Tab Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-30 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Car Rental",
+ "name": "Rate Card",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fleet Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Reservation Agent"
+  }
+ ],
+ "show_name_in_global_search": 0,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

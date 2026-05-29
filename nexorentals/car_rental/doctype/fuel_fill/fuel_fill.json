@@ -1,0 +1,167 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "NR-FUEL-.YYYY.-.####",
+ "creation": "2026-05-30 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "vehicle",
+  "vehicle_name",
+  "fuel_type",
+  "fill_date",
+  "reservation",
+  "section_break_fill",
+  "odometer_at_fill",
+  "liters",
+  "cost_per_liter",
+  "total_cost",
+  "column_break_fill",
+  "station_name",
+  "driver",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "NR-FUEL-.YYYY.-.####"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Vehicle",
+   "options": "Vehicle",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "vehicle.vehicle_name",
+   "fieldname": "vehicle_name",
+   "fieldtype": "Data",
+   "label": "Vehicle Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "vehicle.fuel_type",
+   "fieldname": "fuel_type",
+   "fieldtype": "Data",
+   "label": "Fuel Type",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "fill_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Fill Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reservation",
+   "fieldtype": "Link",
+   "label": "Reservation",
+   "options": "Car Reservation"
+  },
+  {
+   "fieldname": "section_break_fill",
+   "fieldtype": "Section Break",
+   "label": "Fill Details"
+  },
+  {
+   "fieldname": "odometer_at_fill",
+   "fieldtype": "Float",
+   "label": "Odometer at Fill (km)"
+  },
+  {
+   "fieldname": "liters",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Liters Filled",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cost_per_liter",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Cost per Liter",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Cost",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_fill",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "station_name",
+   "fieldtype": "Data",
+   "label": "Station / Location"
+  },
+  {
+   "fieldname": "driver",
+   "fieldtype": "Link",
+   "label": "Driver / Filled By",
+   "options": "Driver"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-30 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Car Rental",
+ "name": "Fuel Fill",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fleet Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Reservation Agent",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Driver",
+   "write": 1
+  }
+ ],
+ "show_name_in_global_search": 0,
+ "sort_field": "fill_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

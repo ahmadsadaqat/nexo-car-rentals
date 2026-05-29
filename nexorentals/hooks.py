@@ -5,6 +5,19 @@ app_description = "Nexo Rental app for rent a car businesses"
 app_email = "ahmadsadaqat6161@gmail.com"
 app_license = "mit"
 
+fixtures = [
+	{
+		"dt": "Role",
+		"filters": [
+			[
+				"role_name",
+				"in",
+				["Fleet Manager", "Reservation Agent", "Car Rental Approver", "Driver", "Mechanic"],
+			]
+		],
+	}
+]
+
 # Apps
 # ------------------
 
@@ -148,23 +161,13 @@ app_license = "mit"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"nexorentals.tasks.all"
-# 	],
-# 	"daily": [
-# 		"nexorentals.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"nexorentals.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"nexorentals.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"nexorentals.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"daily": [
+		"nexorentals.tasks.check_contract_expiry",
+		"nexorentals.tasks.check_insurance_expiry",
+		"nexorentals.tasks.check_document_expiry",
+	],
+}
 
 # Testing
 # -------

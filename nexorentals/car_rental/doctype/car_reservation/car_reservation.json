@@ -1,0 +1,364 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "naming_series:",
+ "naming_rule": "By \"Naming Series\" field",
+ "creation": "2026-05-30 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "status",
+  "booking_date",
+  "column_break_header",
+  "customer",
+  "customer_name",
+  "customer_vehicle_section",
+  "vehicle",
+  "vehicle_name",
+  "column_break_vehicle",
+  "driver",
+  "driver_name",
+  "trip_period_section",
+  "trip_start_date",
+  "trip_end_date",
+  "column_break_period",
+  "total_days",
+  "trip_details_tab",
+  "trip_locations_section",
+  "pickup_location",
+  "column_break_locations",
+  "dropoff_location",
+  "distance_section",
+  "estimated_km",
+  "start_odometer",
+  "column_break_distance",
+  "end_odometer",
+  "trip_km",
+  "pricing_tab",
+  "rate_card",
+  "with_driver",
+  "column_break_pricing_top",
+  "currency",
+  "pricing_section",
+  "base_amount",
+  "km_charges",
+  "column_break_pricing_amounts",
+  "driver_charges",
+  "security_deposit",
+  "total_section",
+  "total_amount",
+  "notes_tab",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "NR-RES-.YYYY.-.####",
+   "reqd": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nPending Approval\nApproved\nOn Trip\nCompleted\nCancelled",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "booking_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Booking Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Customer Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer_vehicle_section",
+   "fieldtype": "Section Break",
+   "label": "Vehicle & Driver"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Vehicle",
+   "options": "Vehicle",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "vehicle.vehicle_name",
+   "fieldname": "vehicle_name",
+   "fieldtype": "Data",
+   "label": "Vehicle Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_vehicle",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "driver",
+   "fieldtype": "Link",
+   "label": "Driver",
+   "options": "Driver"
+  },
+  {
+   "fetch_from": "driver.driver_name",
+   "fieldname": "driver_name",
+   "fieldtype": "Data",
+   "label": "Driver Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "trip_period_section",
+   "fieldtype": "Section Break",
+   "label": "Trip Period"
+  },
+  {
+   "fieldname": "trip_start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Trip Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "trip_end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Trip End Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_period",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_days",
+   "fieldtype": "Int",
+   "label": "Total Days",
+   "read_only": 1
+  },
+  {
+   "fieldname": "trip_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Trip Details"
+  },
+  {
+   "fieldname": "trip_locations_section",
+   "fieldtype": "Section Break",
+   "label": "Trip Locations"
+  },
+  {
+   "fieldname": "pickup_location",
+   "fieldtype": "Data",
+   "label": "Pickup Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_locations",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "dropoff_location",
+   "fieldtype": "Data",
+   "label": "Dropoff Location",
+   "reqd": 1
+  },
+  {
+   "fieldname": "distance_section",
+   "fieldtype": "Section Break",
+   "label": "Distance & Odometer"
+  },
+  {
+   "fieldname": "estimated_km",
+   "fieldtype": "Float",
+   "label": "Estimated KM"
+  },
+  {
+   "fieldname": "start_odometer",
+   "fieldtype": "Float",
+   "label": "Start Odometer (km)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_distance",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "end_odometer",
+   "fieldtype": "Float",
+   "label": "End Odometer (km)"
+  },
+  {
+   "fieldname": "trip_km",
+   "fieldtype": "Float",
+   "label": "Trip KM (Odometer Diff)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pricing_tab",
+   "fieldtype": "Tab Break",
+   "label": "Pricing"
+  },
+  {
+   "fieldname": "rate_card",
+   "fieldtype": "Link",
+   "label": "Rate Card",
+   "options": "Rate Card"
+  },
+  {
+   "default": "0",
+   "fieldname": "with_driver",
+   "fieldtype": "Check",
+   "label": "With Driver"
+  },
+  {
+   "fieldname": "column_break_pricing_top",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "pricing_section",
+   "fieldtype": "Section Break",
+   "label": "Amount Breakdown"
+  },
+  {
+   "fieldname": "base_amount",
+   "fieldtype": "Currency",
+   "label": "Base Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "km_charges",
+   "fieldtype": "Currency",
+   "label": "KM Charges",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_pricing_amounts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "driver_charges",
+   "fieldtype": "Currency",
+   "label": "Driver Charges",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "security_deposit",
+   "fieldtype": "Currency",
+   "label": "Security Deposit",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_section",
+   "fieldtype": "Section Break",
+   "label": "Total"
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Amount",
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notes_tab",
+   "fieldtype": "Tab Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-30 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Car Rental",
+ "name": "Car Reservation",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fleet Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Reservation Agent",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Car Rental Approver"
+  },
+  {
+   "read": 1,
+   "role": "Driver"
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "sort_field": "booking_date",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "customer_name",
+ "track_changes": 1
+}

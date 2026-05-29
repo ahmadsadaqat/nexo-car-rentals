@@ -1,0 +1,116 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "NR-ODO-.YYYY.-.####",
+ "creation": "2026-05-30 00:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "vehicle",
+  "log_date",
+  "odometer_reading",
+  "log_type",
+  "column_break_top",
+  "reservation",
+  "previous_reading",
+  "km_difference",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Vehicle",
+   "options": "Vehicle",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "log_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Log Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "odometer_reading",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Odometer Reading (km)",
+   "reqd": 1
+  },
+  {
+   "default": "Manual Update",
+   "fieldname": "log_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Log Type",
+   "options": "Trip Start\nTrip End\nManual Update"
+  },
+  {
+   "fieldname": "column_break_top",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reservation",
+   "fieldtype": "Link",
+   "label": "Reservation",
+   "options": "Car Reservation"
+  },
+  {
+   "fieldname": "previous_reading",
+   "fieldtype": "Float",
+   "label": "Previous Reading (km)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "km_difference",
+   "fieldtype": "Float",
+   "label": "KM Difference",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-30 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Car Rental",
+ "name": "Vehicle Odometer Log",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fleet Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Reservation Agent",
+   "write": 1
+  }
+ ],
+ "show_name_in_global_search": 0,
+ "sort_field": "log_date",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

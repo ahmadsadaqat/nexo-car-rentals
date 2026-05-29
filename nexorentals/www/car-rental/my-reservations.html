@@ -1,0 +1,100 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ _("My Reservations") }}{% endblock %}
+
+{% block page_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="mb-0">{{ _("My Reservations") }}</h2>
+  <a href="/car-rental/vehicles" class="btn btn-primary btn-sm">+ {{ _("New Booking") }}</a>
+</div>
+
+{% if not customer %}
+<div class="alert alert-info">
+  {{ _("You don't have any bookings yet.") }}
+  <a href="/car-rental/vehicles" class="alert-link">{{ _("Browse vehicles to make your first booking.") }}</a>
+</div>
+
+{% elif not reservations %}
+<div class="text-center py-5">
+  <h5 class="text-muted">{{ _("No reservations found") }}</h5>
+  <a href="/car-rental/vehicles" class="btn btn-primary btn-sm mt-2">{{ _("Browse Vehicles") }}</a>
+</div>
+
+{% else %}
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover mb-0 align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>{{ _("Booking ID") }}</th>
+          <th>{{ _("Vehicle") }}</th>
+          <th>{{ _("Dates") }}</th>
+          <th>{{ _("Days") }}</th>
+          <th>{{ _("Status") }}</th>
+          <th>{{ _("Amount") }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reservations %}
+        <tr>
+          <td><code>{{ r.name }}</code></td>
+          <td>{{ r.vehicle_name or r.vehicle }}</td>
+          <td class="text-nowrap small">
+            {{ r.trip_start_date }}<br>
+            <span class="text-muted">→ {{ r.trip_end_date }}</span>
+          </td>
+          <td>{{ r.total_days or "—" }}</td>
+          <td>
+            {% set status_colors = {
+              "Draft": "secondary",
+              "Pending Approval": "warning",
+              "Approved": "success",
+              "On Trip": "primary",
+              "Completed": "dark",
+              "Cancelled": "danger"
+            } %}
+            <span class="badge bg-{{ status_colors.get(r.status, 'secondary') }}">
+              {{ _(r.status) }}
+            </span>
+          </td>
+          <td>
+            {% if r.total_amount %}
+            {{ frappe.format_value(r.total_amount, {"fieldtype": "Currency"}) }}
+            {% else %}—{% endif %}
+          </td>
+          <td>
+            <div class="d-flex gap-2">
+              <a href="/car-rental/reservation?name={{ r.name | urlencode }}"
+                class="btn btn-outline-primary btn-sm">{{ _("View") }}</a>
+              {% if r.status == "Draft" %}
+              <button class="btn btn-outline-danger btn-sm nr-cancel-btn"
+                data-name="{{ r.name }}">{{ _("Cancel") }}</button>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+<script>
+document.querySelectorAll(".nr-cancel-btn").forEach(btn => {
+  btn.addEventListener("click", function () {
+    const name = this.dataset.name;
+    if (!confirm("{{ _('Cancel this reservation?') }}")) return;
+    frappe.call({
+      method: "nexorentals.car_rental.api.portal.cancel_my_reservation",
+      args: { name },
+      callback(r) {
+        if (r.message && r.message.success) {
+          location.reload();
+        }
+      },
+    });
+  });
+});
+</script>
+{% endblock %}
