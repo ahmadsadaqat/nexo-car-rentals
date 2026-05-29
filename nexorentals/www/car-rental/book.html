@@ -79,6 +79,29 @@
           <input type="hidden" id="rateCardId" value="{{ rate_card.name if rate_card else '' }}">
 
           <div class="row g-3">
+            {% if is_guest %}
+            <div class="col-12">
+              <h6 class="fw-bold mb-0 text-primary">{{ _("Contact Information") }}</h6>
+              <hr class="mt-1 mb-3">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">{{ _("Full Name") }} <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="guestName" name="guest_name" placeholder="{{ _('John Doe') }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">{{ _("Email Address") }} <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="guestEmail" name="guest_email" placeholder="{{ _('john@example.com') }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">{{ _("Phone Number") }}</label>
+              <input type="tel" class="form-control" id="guestPhone" name="guest_phone" placeholder="{{ _('+1 234 567 890') }}">
+            </div>
+            <div class="col-12 mt-4">
+              <h6 class="fw-bold mb-0 text-primary">{{ _("Rental Details") }}</h6>
+              <hr class="mt-1 mb-3">
+            </div>
+            {% endif %}
+
             <div class="col-md-6">
               <label class="form-label fw-semibold">{{ _("Trip Start Date") }} <span class="text-danger">*</span></label>
               <input type="date" class="form-control" id="tripStartDate" name="trip_start_date"
@@ -208,6 +231,10 @@
     submitBtn.disabled = true;
     submitBtn.textContent = "{{ _('Submitting...') }}";
 
+    const guestNameEl  = document.getElementById("guestName");
+    const guestEmailEl = document.getElementById("guestEmail");
+    const guestPhoneEl = document.getElementById("guestPhone");
+
     frappe.call({
       method: "nexorentals.car_rental.api.portal.create_reservation",
       args: {
@@ -217,6 +244,9 @@
         with_driver:      driverCheck.checked ? 1 : 0,
         estimated_km:     parseFloat(kmInput.value) || 0,
         notes:            document.getElementById("notes").value,
+        guest_name:       guestNameEl ? guestNameEl.value : undefined,
+        guest_email:      guestEmailEl ? guestEmailEl.value : undefined,
+        guest_phone:      guestPhoneEl ? guestPhoneEl.value : undefined,
       },
       callback(r) {
         if (r.message && r.message.success) {

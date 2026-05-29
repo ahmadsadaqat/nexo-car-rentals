@@ -19,7 +19,7 @@ from frappe.utils import flt, cint, today
 # Endpoints
 # ─────────────────────────────────────────────────────────────────────────────
 
-@frappe.whitelist(methods=["POST"])
+@frappe.whitelist(allow_guest=True, methods=["POST"])
 def create_reservation(
 	vehicle: str,
 	trip_start_date: str,
@@ -27,20 +27,27 @@ def create_reservation(
 	with_driver: int = 0,
 	estimated_km: float = 0,
 	notes: str = "",
+	pickup_location: str = None,
+	dropoff_location: str = None,
+	guest_name: str = None,
+	guest_email: str = None,
+	guest_phone: str = None,
 ) -> dict:
 	"""
 	Create a new Car Reservation from the customer portal.
 
-	Finds or creates the Customer record for the logged-in user,
+	Finds or creates the Customer record (including guest profiles),
 	validates availability, calculates cost, and saves the Draft reservation.
 
 	Returns:
 	    {"success": True, "name": "NR-RES-2026-0001"}
 	"""
 	if frappe.session.user == "Guest":
-		frappe.throw(_("Please log in to make a booking"), frappe.PermissionError)
-
-	customer = _get_or_create_customer(frappe.session.user)
+		if not guest_name or not guest_email:
+			frappe.throw(_("Please provide your name and email address to book a vehicle."))
+		customer = _get_or_create_guest_customer(guest_name, guest_email, guest_phone)
+	else:
+		customer = _get_or_create_customer(frappe.session.user)
 
 	# Validate vehicle is available
 	v_status = frappe.db.get_value("Vehicle", vehicle, "status")
@@ -76,6 +83,8 @@ def create_reservation(
 		"rate_card": rate_card,
 		"start_odometer": start_odometer,
 		"notes": notes,
+		"pickup_location": pickup_location or "Headquarters",
+		"dropoff_location": dropoff_location or "Headquarters",
 		"status": "Draft",
 		"booking_date": today(),
 	})
@@ -85,6 +94,13 @@ def create_reservation(
 		_fill_costs(doc, rate_card, total_days, flt(estimated_km), cint(with_driver))
 
 	doc.insert(ignore_permissions=True)
+
+	if frappe.session.user == "Guest":
+		cache_key = f"guest_reservations:{frappe.session.sid}"
+		guest_res = frappe.cache.get_value(cache_key) or []
+		guest_res.append(doc.name)
+		frappe.cache.set_value(cache_key, guest_res, expires_in_sec=3600)
+
 	frappe.db.commit()
 
 	return {"success": True, "name": doc.name}
@@ -189,6 +205,45 @@ def _get_or_create_customer(user: str) -> str:
 		"email_id": user,
 		"links": [{"link_doctype": "Customer", "link_name": customer.name}],
 	})
+	contact.insert(ignore_permissions=True)
+	frappe.db.commit()
+
+	return customer.name
+
+
+def _get_or_create_guest_customer(name: str, email: str, phone: str = None) -> str:
+	"""Return existing Customer for this guest email, or create one."""
+	existing = _get_customer_for_user(email)
+	if existing:
+		return existing
+
+	# Default customer group — use first non-group entry
+	customer_group = (
+		frappe.db.get_value("Customer Group", {"is_group": 0}, "name")
+		or "All Customer Groups"
+	)
+
+	customer = frappe.get_doc({
+		"doctype": "Customer",
+		"customer_name": name,
+		"customer_type": "Individual",
+		"customer_group": customer_group,
+		"territory": "All Territories",
+	})
+	customer.insert(ignore_permissions=True)
+
+	# Link via Contact so future lookups resolve
+	contact_dict = {
+		"doctype": "Contact",
+		"first_name": name,
+		"email_id": email,
+		"links": [{"link_doctype": "Customer", "link_name": customer.name}],
+	}
+	if phone:
+		contact_dict["phone"] = phone
+		contact_dict["mobile_no"] = phone
+
+	contact = frappe.get_doc(contact_dict)
 	contact.insert(ignore_permissions=True)
 	frappe.db.commit()
 

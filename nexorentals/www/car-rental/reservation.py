@@ -29,9 +29,16 @@ def get_context(context):
 	if not res:
 		frappe.throw(frappe._("Reservation not found"), frappe.DoesNotExistError)
 
-	# Ensure this reservation belongs to the logged-in customer
+	# Ensure this reservation belongs to the logged-in customer or is in the guest's session cache
 	customer = _get_customer_for_user(frappe.session.user)
-	if res.customer != customer:
+	allowed_guest = False
+	if frappe.session.user == "Guest":
+		cache_key = f"guest_reservations:{frappe.session.sid}"
+		allowed_reservations = frappe.cache.get_value(cache_key) or []
+		if name in allowed_reservations:
+			allowed_guest = True
+
+	if not allowed_guest and res.customer != customer:
 		frappe.throw(frappe._("Not permitted"), frappe.PermissionError)
 
 	context.res        = res

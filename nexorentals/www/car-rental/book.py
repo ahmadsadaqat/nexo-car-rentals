@@ -6,6 +6,7 @@ login_required = True
 def get_context(context):
 	context.title = "Book a Vehicle"
 	context.no_cache = 1
+	context.is_guest = frappe.session.user == "Guest"
 
 	vehicle_name = frappe.form_dict.get("vehicle", "")
 	if not vehicle_name:

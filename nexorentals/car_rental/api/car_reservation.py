@@ -74,7 +74,7 @@ def complete_trip(name: str, end_odometer: float, actual_km: Optional[float] = N
 	}
 
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def calculate_cost(
 	rate_card: str,
 	total_days: int,
@@ -93,7 +93,8 @@ def calculate_cost(
 	Returns:
 	    Cost breakdown dict
 	"""
-	_check_permission("Rate Card", "read")
+	if frappe.session.user != "Guest":
+		_check_permission("Rate Card", "read")
 
 	total_days   = cint(total_days) or 1
 	estimated_km = flt(estimated_km)
