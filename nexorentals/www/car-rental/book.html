@@ -2,64 +2,125 @@
 {% block title %}{{ _("Book") }} — {{ vehicle.vehicle_name }}{% endblock %}
 
 {% block page_content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h2 class="mb-0">{{ _("Book a Vehicle") }}</h2>
-  <a href="/car-rental/vehicles" class="btn btn-outline-secondary btn-sm">← {{ _("Back to Fleet") }}</a>
+
+<!-- ===== PAGE HEADER ===== -->
+<div class="nrb-header">
+  <div class="nrb-header-bg"></div>
+  <div class="container nrb-header-inner">
+    <a href="/car-rental/vehicles" class="nrb-breadcrumb">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+      </svg>
+      {{ _("Back to Fleet") }}
+    </a>
+    <h1 class="nrb-header-title">{{ _("Reserve Your Vehicle") }}</h1>
+    <p class="nrb-header-sub">{{ _("Fill in the details below to confirm your booking.") }}</p>
+  </div>
 </div>
 
+<!-- ===== UNAVAILABLE ALERT ===== -->
 {% if vehicle_unavailable %}
-<div class="alert alert-warning">
-  {{ _("This vehicle is currently not available for booking.") }}
-  <a href="/car-rental/vehicles" class="alert-link">{{ _("Browse other vehicles") }}</a>.
+<div class="container nrb-unavailable-wrap">
+  <div class="nrb-alert">
+    <div class="nrb-alert-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+      </svg>
+    </div>
+    <div>
+      <strong>{{ _("Vehicle Unavailable") }}</strong>
+      {{ _("This vehicle is currently not available for booking.") }}
+      <a href="/car-rental/vehicles">{{ _("Browse other vehicles") }}</a>.
+    </div>
+  </div>
 </div>
 {% endif %}
 
-<div class="row g-4">
-  <!-- Vehicle Summary -->
-  <div class="col-md-4">
-    <div class="card border-0 shadow-sm mb-3">
-      {% if vehicle.image %}
-      <img src="{{ vehicle.image }}" class="card-img-top" style="height: 180px; object-fit: cover;" alt="{{ vehicle.vehicle_name }}">
-      {% else %}
-      <div class="d-flex align-items-center justify-content-center bg-light" style="height: 180px; border-radius: 0.375rem 0.375rem 0 0;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="#adb5bd" viewBox="0 0 16 16">
-          <path d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848z"/>
-        </svg>
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="container nrb-layout">
+
+  <!-- ── LEFT: Vehicle summary ── -->
+  <aside class="nrb-aside">
+
+    <!-- Vehicle card -->
+    <div class="nrb-vehicle-card">
+      <div class="nrb-vehicle-img">
+        {% if vehicle.image %}
+        <img src="{{ vehicle.image }}" alt="{{ vehicle.vehicle_name }}">
+        {% else %}
+        <div class="nrb-vehicle-img-placeholder">
+          <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848zM3 10a1 1 0 1 0 2 0 1 1 0 0 0-2 0zm9 0a1 1 0 1 0 2 0 1 1 0 0 0-2 0z"/>
+          </svg>
+        </div>
+        {% endif %}
+        <span class="nrb-status {% if vehicle.status == 'Available' %}nrb-status--available{% else %}nrb-status--unavailable{% endif %}">
+          {% if vehicle.status == 'Available' %}<span class="nrb-status-dot"></span>{% endif %}
+          {{ _(vehicle.status) }}
+        </span>
       </div>
-      {% endif %}
-      <div class="card-body">
-        <h5 class="card-title mb-1">{{ vehicle.vehicle_name }}</h5>
-        <p class="text-muted small mb-2">{{ vehicle.vehicle_category }}</p>
-        <ul class="list-unstyled small text-muted mb-0">
-          {% if vehicle.fuel_type %}<li>⛽ {{ _(vehicle.fuel_type) }}</li>{% endif %}
-          {% if vehicle.seats %}<li>👤 {{ vehicle.seats }} {{ _("seats") }}</li>{% endif %}
-          {% if vehicle.transmission %}<li>⚙ {{ _(vehicle.transmission) }}</li>{% endif %}
-        </ul>
+      <div class="nrb-vehicle-info">
+        <div class="nrb-vehicle-cat">{{ vehicle.vehicle_category }}</div>
+        <h2 class="nrb-vehicle-name">{{ vehicle.vehicle_name }}</h2>
+        <div class="nrb-specs">
+          {% if vehicle.fuel_type %}
+          <span class="nrb-spec">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M3 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5v-5z"/>
+              <path d="M1 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v8a2 2 0 0 1 2 2v.5a.5.5 0 0 0 1 0V8h-.5a.5.5 0 0 1-.5-.5V4.375a.5.5 0 0 1 .5-.5h1.495c-.011-.476-.053-.894-.201-1.222a.97.97 0 0 0-.394-.458c-.184-.11-.464-.195-.9-.195a.5.5 0 0 1 0-1c.564 0 1.034.11 1.412.336.383.228.634.551.794.907.295.655.301 1.408.301 2.353V7.5a1.5 1.5 0 0 1-1.5 1.5H12v3.5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V2z"/>
+            </svg>
+            {{ _(vehicle.fuel_type) }}
+          </span>
+          {% endif %}
+          {% if vehicle.seats %}
+          <span class="nrb-spec">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            </svg>
+            {{ vehicle.seats }} {{ _("seats") }}
+          </span>
+          {% endif %}
+          {% if vehicle.transmission %}
+          <span class="nrb-spec">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+            </svg>
+            {{ _(vehicle.transmission) }}
+          </span>
+          {% endif %}
+        </div>
       </div>
     </div>
 
+    <!-- Pricing card -->
     {% if rate_card %}
-    <div class="card border-0 bg-light">
-      <div class="card-body small">
-        <h6 class="fw-semibold mb-2">{{ _("Pricing") }}</h6>
-        <div class="d-flex justify-content-between">
+    <div class="nrb-pricing-card">
+      <div class="nrb-pricing-header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.051zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
+        </svg>
+        {{ _("Pricing") }}
+      </div>
+      <div class="nrb-pricing-rows">
+        <div class="nrb-pricing-row">
           <span>{{ _("Daily Rate") }}</span>
           <strong>{{ frappe.format_value(rate_card.daily_rate, {"fieldtype": "Currency"}) }}</strong>
         </div>
         {% if rate_card.per_km_rate %}
-        <div class="d-flex justify-content-between">
+        <div class="nrb-pricing-row">
           <span>{{ _("Per KM (extra)") }}</span>
           <strong>{{ frappe.format_value(rate_card.per_km_rate, {"fieldtype": "Currency"}) }}</strong>
         </div>
         {% endif %}
         {% if rate_card.security_deposit %}
-        <div class="d-flex justify-content-between">
+        <div class="nrb-pricing-row">
           <span>{{ _("Security Deposit") }}</span>
           <strong>{{ frappe.format_value(rate_card.security_deposit, {"fieldtype": "Currency"}) }}</strong>
         </div>
         {% endif %}
         {% if rate_card.driver_charges_per_day %}
-        <div class="d-flex justify-content-between">
+        <div class="nrb-pricing-row">
           <span>{{ _("Driver / Day") }}</span>
           <strong>{{ frappe.format_value(rate_card.driver_charges_per_day, {"fieldtype": "Currency"}) }}</strong>
         </div>
@@ -67,101 +128,472 @@
       </div>
     </div>
     {% endif %}
-  </div>
 
-  <!-- Booking Form -->
-  <div class="col-md-8">
-    <div class="card border-0 shadow-sm">
-      <div class="card-body p-4">
-        <h5 class="mb-4">{{ _("Booking Details") }}</h5>
+  </aside>
+
+  <!-- ── RIGHT: Booking form ── -->
+  <main class="nrb-main">
+    <div class="nrb-form-card">
+
+      {% if is_guest %}
+      <!-- Contact section -->
+      <div class="nrb-form-section">
+        <div class="nrb-section-label">
+          <div class="nrb-section-icon nrb-section-icon--blue">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            </svg>
+          </div>
+          <span>{{ _("Contact Information") }}</span>
+        </div>
+        <div class="nrb-form-grid">
+          <div class="nrb-field">
+            <label class="nrb-label">{{ _("Full Name") }} <span class="nrb-required">*</span></label>
+            <input type="text" class="nrb-input" id="guestName" name="guest_name"
+              placeholder="{{ _('John Doe') }}" required>
+          </div>
+          <div class="nrb-field">
+            <label class="nrb-label">{{ _("Email Address") }} <span class="nrb-required">*</span></label>
+            <input type="email" class="nrb-input" id="guestEmail" name="guest_email"
+              placeholder="{{ _('john@example.com') }}" required>
+          </div>
+          <div class="nrb-field">
+            <label class="nrb-label">{{ _("Phone Number") }}</label>
+            <input type="tel" class="nrb-input" id="guestPhone" name="guest_phone"
+              placeholder="{{ _('+1 234 567 890') }}">
+          </div>
+        </div>
+      </div>
+      <div class="nrb-divider"></div>
+      {% endif %}
+
+      <!-- Rental details section -->
+      <div class="nrb-form-section">
+        <div class="nrb-section-label">
+          <div class="nrb-section-icon nrb-section-icon--orange">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+            </svg>
+          </div>
+          <span>{{ _("Rental Details") }}</span>
+        </div>
         <form id="bookingForm">
           <input type="hidden" id="vehicleId" value="{{ vehicle.name }}">
           <input type="hidden" id="rateCardId" value="{{ rate_card.name if rate_card else '' }}">
 
-          <div class="row g-3">
-            {% if is_guest %}
-            <div class="col-12">
-              <h6 class="fw-bold mb-0 text-primary">{{ _("Contact Information") }}</h6>
-              <hr class="mt-1 mb-3">
-            </div>
-            <div class="col-md-6">
-              <label class="form-label fw-semibold">{{ _("Full Name") }} <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" id="guestName" name="guest_name" placeholder="{{ _('John Doe') }}" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label fw-semibold">{{ _("Email Address") }} <span class="text-danger">*</span></label>
-              <input type="email" class="form-control" id="guestEmail" name="guest_email" placeholder="{{ _('john@example.com') }}" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label fw-semibold">{{ _("Phone Number") }}</label>
-              <input type="tel" class="form-control" id="guestPhone" name="guest_phone" placeholder="{{ _('+1 234 567 890') }}">
-            </div>
-            <div class="col-12 mt-4">
-              <h6 class="fw-bold mb-0 text-primary">{{ _("Rental Details") }}</h6>
-              <hr class="mt-1 mb-3">
-            </div>
-            {% endif %}
-
-            <div class="col-md-6">
-              <label class="form-label fw-semibold">{{ _("Trip Start Date") }} <span class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="tripStartDate" name="trip_start_date"
+          <div class="nrb-form-grid">
+            <div class="nrb-field">
+              <label class="nrb-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16" style="margin-right:4px;opacity:.6">
+                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                </svg>
+                {{ _("Start Date") }} <span class="nrb-required">*</span>
+              </label>
+              <input type="date" class="nrb-input" id="tripStartDate" name="trip_start_date"
                 min="{{ today }}" value="{{ today }}" required>
             </div>
-            <div class="col-md-6">
-              <label class="form-label fw-semibold">{{ _("Trip End Date") }} <span class="text-danger">*</span></label>
-              <input type="date" class="form-control" id="tripEndDate" name="trip_end_date"
+            <div class="nrb-field">
+              <label class="nrb-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16" style="margin-right:4px;opacity:.6">
+                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                </svg>
+                {{ _("End Date") }} <span class="nrb-required">*</span>
+              </label>
+              <input type="date" class="nrb-input" id="tripEndDate" name="trip_end_date"
                 min="{{ tomorrow }}" value="{{ tomorrow }}" required>
             </div>
-            <div class="col-md-6">
-              <label class="form-label fw-semibold">{{ _("Estimated KM") }}</label>
-              <input type="number" class="form-control" id="estimatedKm" name="estimated_km"
+            <div class="nrb-field">
+              <label class="nrb-label">{{ _("Estimated KM") }}</label>
+              <input type="number" class="nrb-input" id="estimatedKm" name="estimated_km"
                 min="0" step="1" placeholder="0">
             </div>
-            <div class="col-md-6 d-flex align-items-end">
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="withDriver" name="with_driver">
-                <label class="form-check-label" for="withDriver">{{ _("Include Driver") }}</label>
+            <div class="nrb-field nrb-field--center">
+              <label class="nrb-toggle-label">
+                <input type="checkbox" class="nrb-toggle-input" id="withDriver" name="with_driver">
+                <span class="nrb-toggle-track"><span class="nrb-toggle-thumb"></span></span>
+                <div class="nrb-toggle-body">
+                  <span class="nrb-toggle-title">{{ _("Include Driver") }}</span>
+                  {% if rate_card and rate_card.driver_charges_per_day %}
+                  <span class="nrb-toggle-hint">+ {{ frappe.format_value(rate_card.driver_charges_per_day, {"fieldtype": "Currency"}) }} / {{ _("day") }}</span>
+                  {% endif %}
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="nrb-field nrb-field--full" style="margin-top:4px;">
+            <label class="nrb-label">{{ _("Notes") }}</label>
+            <textarea class="nrb-input nrb-textarea" id="notes" name="notes" rows="3"
+              placeholder="{{ _('Pickup location, special requirements, questions...') }}"></textarea>
+          </div>
+
+          <!-- Cost estimate -->
+          <div class="nrb-cost-card" id="costPreview" style="display:none;">
+            <div class="nrb-cost-header">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.051zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
+              </svg>
+              {{ _("Cost Estimate") }}
+              <span class="nrb-cost-badge" id="daysLabel"></span>
+            </div>
+            <div class="nrb-cost-rows">
+              <div class="nrb-cost-row">
+                <span>{{ _("Base Amount") }}</span>
+                <span id="previewBase">—</span>
+              </div>
+              <div class="nrb-cost-row">
+                <span>{{ _("KM Charges") }}</span>
+                <span id="previewKm">—</span>
+              </div>
+              <div class="nrb-cost-row">
+                <span>{{ _("Driver Charges") }}</span>
+                <span id="previewDriver">—</span>
+              </div>
+              <div class="nrb-cost-row">
+                <span>{{ _("Security Deposit") }}</span>
+                <span id="previewDeposit">—</span>
               </div>
             </div>
-            <div class="col-12">
-              <label class="form-label fw-semibold">{{ _("Notes") }}</label>
-              <textarea class="form-control" id="notes" name="notes" rows="2"
-                placeholder="{{ _('Pickup location, special requirements...') }}"></textarea>
+            <div class="nrb-cost-total">
+              <span>{{ _("Estimated Total") }}</span>
+              <span id="previewTotal">—</span>
             </div>
           </div>
 
-          <!-- Cost Preview -->
-          <div class="card border-0 bg-light mt-4 p-3" id="costPreview" style="display:none!important;">
-            <h6 class="fw-semibold mb-2">{{ _("Cost Estimate") }}</h6>
-            <div class="row small">
-              <div class="col-6">{{ _("Base Amount") }}</div>
-              <div class="col-6 text-end fw-semibold" id="previewBase">—</div>
-              <div class="col-6">{{ _("KM Charges") }}</div>
-              <div class="col-6 text-end" id="previewKm">—</div>
-              <div class="col-6">{{ _("Driver Charges") }}</div>
-              <div class="col-6 text-end" id="previewDriver">—</div>
-              <div class="col-6">{{ _("Security Deposit") }}</div>
-              <div class="col-6 text-end" id="previewDeposit">—</div>
-              <hr class="my-1">
-              <div class="col-6 fw-bold">{{ _("Total") }}</div>
-              <div class="col-6 text-end fw-bold text-primary" id="previewTotal">—</div>
-            </div>
-          </div>
+          <!-- Alert -->
+          <div id="formAlert" class="nrb-form-alert" style="display:none;"></div>
 
-          <div id="formAlert" class="alert mt-3" style="display:none;"></div>
-
-          <div class="mt-4 d-flex gap-3">
-            <button type="submit" class="btn btn-primary px-5" id="submitBtn"
+          <!-- Actions -->
+          <div class="nrb-actions">
+            <button type="submit" class="nrb-submit-btn" id="submitBtn"
               {% if vehicle_unavailable %}disabled{% endif %}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
               {{ _("Confirm Booking") }}
             </button>
-            <a href="/car-rental/vehicles" class="btn btn-outline-secondary">{{ _("Cancel") }}</a>
+            <a href="/car-rental/vehicles" class="nrb-cancel-btn">{{ _("Cancel") }}</a>
           </div>
+
         </form>
       </div>
+
     </div>
-  </div>
+  </main>
 </div>
+
+<style>
+/* ── Tokens ── */
+:root {
+  --nrb-primary:     #0f2d52;
+  --nrb-primary-mid: #1a4a7a;
+  --nrb-accent:      #f97316;
+  --nrb-accent-dark: #ea6900;
+  --nrb-green:       #16a34a;
+  --nrb-page-bg:     #f8fafc;
+  --nrb-card-bg:     #ffffff;
+  --nrb-border:      #e2e8f0;
+  --nrb-text:        #0f172a;
+  --nrb-muted:       #64748b;
+  --nrb-radius:      14px;
+  --nrb-shadow:      0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+}
+body { background: var(--nrb-page-bg) !important; }
+
+/* ── Header ── */
+.nrb-header {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+.nrb-header-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--nrb-primary) 0%, var(--nrb-primary-mid) 60%, #2563eb 100%);
+}
+.nrb-header-bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.nrb-header-inner {
+  position: relative; z-index: 1;
+  padding: 48px 24px 64px;
+  color: #fff;
+}
+.nrb-breadcrumb {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: rgba(255,255,255,.65); font-size: .82rem;
+  text-decoration: none; margin-bottom: 14px;
+  transition: color .15s;
+}
+.nrb-breadcrumb:hover { color: #fff; text-decoration: none; }
+.nrb-header-title {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 800; letter-spacing: -.02em; margin-bottom: 6px; color: #fff;
+}
+.nrb-header-sub { color: rgba(255,255,255,.7); font-size: .95rem; margin: 0; }
+
+/* ── Unavailable alert ── */
+.nrb-unavailable-wrap { margin-top: -20px; margin-bottom: 28px; position: relative; z-index: 2; }
+.nrb-alert {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: #fff7ed; border: 1px solid #fed7aa;
+  border-radius: 10px; padding: 16px 20px;
+  font-size: .9rem; color: #92400e;
+}
+.nrb-alert-icon { color: #f97316; flex-shrink: 0; margin-top: 1px; }
+.nrb-alert a { color: #c2410c; font-weight: 600; }
+
+/* ── Main layout ── */
+.nrb-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: -36px;
+  margin-bottom: 64px;
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 900px) {
+  .nrb-layout { grid-template-columns: 1fr; }
+}
+
+/* ── Aside ── */
+.nrb-aside { display: flex; flex-direction: column; gap: 16px; }
+
+/* Vehicle card */
+.nrb-vehicle-card {
+  background: var(--nrb-card-bg);
+  border: 1px solid var(--nrb-border);
+  border-radius: var(--nrb-radius);
+  box-shadow: var(--nrb-shadow);
+  overflow: hidden;
+}
+.nrb-vehicle-img {
+  position: relative; height: 200px;
+  background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+  overflow: hidden;
+}
+.nrb-vehicle-img img { width: 100%; height: 100%; object-fit: cover; }
+.nrb-vehicle-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center; color: #b0bec5;
+}
+.nrb-status {
+  position: absolute; top: 12px; left: 12px;
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 999px; padding: 4px 10px;
+  font-size: .72rem; font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase;
+}
+.nrb-status--available {
+  background: rgba(22,163,74,.15); color: #15803d;
+  border: 1px solid rgba(22,163,74,.25); backdrop-filter: blur(4px);
+}
+.nrb-status--unavailable {
+  background: rgba(100,116,139,.15); color: #475569;
+  border: 1px solid rgba(100,116,139,.25); backdrop-filter: blur(4px);
+}
+.nrb-status-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #16a34a;
+  animation: nrb-pulse 2s ease-in-out infinite;
+}
+@keyframes nrb-pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50% { opacity:.5; transform:scale(1.3); }
+}
+.nrb-vehicle-info { padding: 20px; }
+.nrb-vehicle-cat {
+  font-size: .72rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--nrb-primary-mid); margin-bottom: 4px;
+}
+.nrb-vehicle-name { font-size: 1.15rem; font-weight: 700; color: var(--nrb-text); margin-bottom: 12px; }
+.nrb-specs { display: flex; flex-wrap: wrap; gap: 6px; }
+.nrb-spec {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #f1f5f9; border: 1px solid var(--nrb-border);
+  border-radius: 6px; padding: 4px 10px;
+  font-size: .77rem; color: var(--nrb-muted); font-weight: 500;
+}
+
+/* Pricing card */
+.nrb-pricing-card {
+  background: var(--nrb-card-bg);
+  border: 1px solid var(--nrb-border);
+  border-radius: var(--nrb-radius);
+  box-shadow: var(--nrb-shadow);
+  overflow: hidden;
+}
+.nrb-pricing-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 20px;
+  background: #f8fafc; border-bottom: 1px solid var(--nrb-border);
+  font-size: .82rem; font-weight: 700; color: var(--nrb-text);
+}
+.nrb-pricing-rows { padding: 8px 0; }
+.nrb-pricing-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 20px; font-size: .85rem; color: var(--nrb-text);
+}
+.nrb-pricing-row + .nrb-pricing-row { border-top: 1px solid #f1f5f9; }
+.nrb-pricing-row span { color: var(--nrb-muted); }
+.nrb-pricing-row strong { font-weight: 700; color: var(--nrb-primary); }
+
+/* ── Form card ── */
+.nrb-form-card {
+  background: var(--nrb-card-bg);
+  border: 1px solid var(--nrb-border);
+  border-radius: var(--nrb-radius);
+  box-shadow: var(--nrb-shadow);
+  overflow: hidden;
+}
+.nrb-form-section { padding: 28px 32px; }
+@media (max-width: 600px) { .nrb-form-section { padding: 20px 18px; } }
+.nrb-divider { border: none; border-top: 1px solid var(--nrb-border); margin: 0; }
+
+.nrb-section-label {
+  display: flex; align-items: center; gap: 10px;
+  font-size: .9rem; font-weight: 700; color: var(--nrb-text);
+  margin-bottom: 22px;
+}
+.nrb-section-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nrb-section-icon--blue { background: #dbeafe; color: #1d4ed8; }
+.nrb-section-icon--orange { background: #ffedd5; color: #ea6900; }
+
+.nrb-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+@media (max-width: 560px) { .nrb-form-grid { grid-template-columns: 1fr; } }
+
+.nrb-field { display: flex; flex-direction: column; gap: 6px; }
+.nrb-field--full { grid-column: 1 / -1; }
+.nrb-field--center { justify-content: center; }
+
+.nrb-label {
+  font-size: .82rem; font-weight: 600; color: var(--nrb-text);
+  display: flex; align-items: center;
+}
+.nrb-required { color: var(--nrb-accent); margin-left: 3px; }
+
+.nrb-input {
+  border: 1.5px solid var(--nrb-border); border-radius: 8px;
+  padding: 10px 14px; font-size: .9rem; color: var(--nrb-text);
+  background: #fff; transition: border-color .15s, box-shadow .15s;
+  width: 100%; box-sizing: border-box;
+}
+.nrb-input:focus {
+  outline: none; border-color: var(--nrb-primary-mid);
+  box-shadow: 0 0 0 3px rgba(26,74,122,.1);
+}
+.nrb-textarea { resize: vertical; min-height: 80px; }
+
+/* Custom toggle */
+.nrb-toggle-label {
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; user-select: none;
+  background: #f8fafc; border: 1.5px solid var(--nrb-border);
+  border-radius: 10px; padding: 12px 14px;
+  transition: border-color .15s;
+}
+.nrb-toggle-label:hover { border-color: #bfdbfe; }
+.nrb-toggle-input { display: none; }
+.nrb-toggle-track {
+  width: 42px; height: 24px; border-radius: 999px;
+  background: #cbd5e1; position: relative;
+  transition: background .2s; flex-shrink: 0;
+}
+.nrb-toggle-thumb {
+  position: absolute; top: 4px; left: 4px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  transition: transform .2s;
+}
+.nrb-toggle-input:checked + .nrb-toggle-track { background: var(--nrb-primary); }
+.nrb-toggle-input:checked + .nrb-toggle-track .nrb-toggle-thumb { transform: translateX(18px); }
+.nrb-toggle-body { display: flex; flex-direction: column; gap: 1px; }
+.nrb-toggle-title { font-size: .85rem; font-weight: 600; color: var(--nrb-text); }
+.nrb-toggle-hint { font-size: .75rem; color: var(--nrb-muted); }
+
+/* Cost estimate */
+.nrb-cost-card {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #f0f7ff 0%, #e8f0fe 100%);
+  border: 1.5px solid #bfdbfe;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.nrb-cost-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 20px;
+  background: rgba(255,255,255,.6);
+  border-bottom: 1px solid #bfdbfe;
+  font-size: .85rem; font-weight: 700; color: var(--nrb-primary);
+}
+.nrb-cost-badge {
+  margin-left: auto;
+  background: var(--nrb-primary); color: #fff;
+  border-radius: 999px; padding: 2px 10px;
+  font-size: .72rem; font-weight: 600;
+}
+.nrb-cost-rows { padding: 4px 0; }
+.nrb-cost-row {
+  display: flex; justify-content: space-between;
+  padding: 8px 20px; font-size: .84rem; color: var(--nrb-muted);
+}
+.nrb-cost-row + .nrb-cost-row { border-top: 1px solid rgba(191,219,254,.5); }
+.nrb-cost-total {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 20px;
+  border-top: 2px solid #bfdbfe;
+  font-size: 1rem; font-weight: 800; color: var(--nrb-primary);
+  background: rgba(255,255,255,.5);
+}
+
+/* Alert */
+.nrb-form-alert {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: .88rem;
+  background: #fef2f2; border: 1px solid #fecaca; color: #991b1b;
+}
+
+/* Actions */
+.nrb-actions {
+  display: flex; align-items: center; gap: 14px;
+  margin-top: 28px; flex-wrap: wrap;
+}
+.nrb-submit-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--nrb-accent); color: #fff;
+  border: none; border-radius: 10px;
+  padding: 12px 28px; font-size: .95rem; font-weight: 700;
+  cursor: pointer; transition: background .15s, transform .15s, box-shadow .15s;
+  box-shadow: 0 4px 14px rgba(249,115,22,.3);
+}
+.nrb-submit-btn:hover {
+  background: var(--nrb-accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(249,115,22,.4);
+}
+.nrb-submit-btn:disabled {
+  background: #e2e8f0; color: #94a3b8;
+  box-shadow: none; cursor: not-allowed; transform: none;
+}
+.nrb-cancel-btn {
+  font-size: .88rem; font-weight: 500; color: var(--nrb-muted);
+  text-decoration: none; padding: 10px 16px;
+  border-radius: 8px; transition: background .15s, color .15s;
+}
+.nrb-cancel-btn:hover { background: #f1f5f9; color: var(--nrb-text); text-decoration: none; }
+</style>
 
 <script>
 (function () {
@@ -171,6 +603,7 @@
   const kmInput     = document.getElementById("estimatedKm");
   const driverCheck = document.getElementById("withDriver");
   const previewBox  = document.getElementById("costPreview");
+  const daysLabel   = document.getElementById("daysLabel");
   const form        = document.getElementById("bookingForm");
   const alertBox    = document.getElementById("formAlert");
   const submitBtn   = document.getElementById("submitBtn");
@@ -179,13 +612,14 @@
     return Math.max(1, Math.round((new Date(b) - new Date(a)) / 86400000));
   }
 
-  function formatCurrency(val) {
+  function fmt(val) {
     return parseFloat(val || 0).toLocaleString(undefined, { minimumFractionDigits: 2 });
   }
 
   function updateCost() {
     if (!rateCardId || !startInput.value || !endInput.value) return;
     const days = daysDiff(startInput.value, endInput.value);
+    if (daysLabel) daysLabel.textContent = days + " {{ _('day') }}" + (days !== 1 ? "s" : "");
     frappe.call({
       method: "nexorentals.car_rental.api.car_reservation.calculate_cost",
       args: {
@@ -197,11 +631,11 @@
       callback(r) {
         if (r.message) {
           const d = r.message;
-          document.getElementById("previewBase").textContent    = formatCurrency(d.base_amount);
-          document.getElementById("previewKm").textContent      = formatCurrency(d.km_charges);
-          document.getElementById("previewDriver").textContent  = formatCurrency(d.driver_charges);
-          document.getElementById("previewDeposit").textContent = formatCurrency(d.security_deposit);
-          document.getElementById("previewTotal").textContent   = formatCurrency(d.total);
+          document.getElementById("previewBase").textContent    = fmt(d.base_amount);
+          document.getElementById("previewKm").textContent      = fmt(d.km_charges);
+          document.getElementById("previewDriver").textContent  = fmt(d.driver_charges);
+          document.getElementById("previewDeposit").textContent = fmt(d.security_deposit);
+          document.getElementById("previewTotal").textContent   = fmt(d.total);
           previewBox.style.removeProperty("display");
         }
       },
@@ -212,7 +646,6 @@
     el.addEventListener("change", updateCost);
   });
 
-  // Enforce end >= start + 1 day
   startInput.addEventListener("change", function () {
     const minEnd = new Date(this.value);
     minEnd.setDate(minEnd.getDate() + 1);
@@ -229,7 +662,7 @@
     e.preventDefault();
     alertBox.style.display = "none";
     submitBtn.disabled = true;
-    submitBtn.textContent = "{{ _('Submitting...') }}";
+    submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="nrb-spin" viewBox="0 0 16 16"><path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/></svg> {{ _("Submitting...") }}';
 
     const guestNameEl  = document.getElementById("guestName");
     const guestEmailEl = document.getElementById("guestEmail");
@@ -238,30 +671,41 @@
     frappe.call({
       method: "nexorentals.car_rental.api.portal.create_reservation",
       args: {
-        vehicle:          document.getElementById("vehicleId").value,
-        trip_start_date:  startInput.value,
-        trip_end_date:    endInput.value,
-        with_driver:      driverCheck.checked ? 1 : 0,
-        estimated_km:     parseFloat(kmInput.value) || 0,
-        notes:            document.getElementById("notes").value,
-        guest_name:       guestNameEl ? guestNameEl.value : undefined,
-        guest_email:      guestEmailEl ? guestEmailEl.value : undefined,
-        guest_phone:      guestPhoneEl ? guestPhoneEl.value : undefined,
+        vehicle:         document.getElementById("vehicleId").value,
+        trip_start_date: startInput.value,
+        trip_end_date:   endInput.value,
+        with_driver:     driverCheck.checked ? 1 : 0,
+        estimated_km:    parseFloat(kmInput.value) || 0,
+        notes:           document.getElementById("notes").value,
+        guest_name:      guestNameEl  ? guestNameEl.value  : undefined,
+        guest_email:     guestEmailEl ? guestEmailEl.value : undefined,
+        guest_phone:     guestPhoneEl ? guestPhoneEl.value : undefined,
       },
       callback(r) {
         if (r.message && r.message.success) {
           window.location.href = "/car-rental/reservation?name=" + encodeURIComponent(r.message.name);
         } else {
           submitBtn.disabled = false;
-          submitBtn.textContent = "{{ _('Confirm Booking') }}";
+          submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg> {{ _("Confirm Booking") }}';
         }
       },
       error() {
         submitBtn.disabled = false;
-        submitBtn.textContent = "{{ _('Confirm Booking') }}";
+        submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg> {{ _("Confirm Booking") }}';
+        alertBox.style.removeProperty("display");
+        alertBox.textContent = "{{ _('An error occurred. Please try again.') }}";
       },
     });
   });
 })();
 </script>
+
+<style>
+@keyframes nrb-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.nrb-spin { animation: nrb-spin .8s linear infinite; }
+</style>
+
 {% endblock %}
